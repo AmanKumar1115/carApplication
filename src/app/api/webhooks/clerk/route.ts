@@ -1,11 +1,11 @@
-import { clerkClient } from '@clerk/nextjs/server'
 import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import { WebhookEvent } from '@clerk/nextjs/server'
-import mongoose from 'mongoose';
-import { createUser } from "../../../../actions/user.action"
-import { NextResponse } from "next/server";
 
+import mongoose from 'mongoose';
+import { createUser } from "@/actions/user.action";
+import { NextResponse } from "next/server";
+import { clerkClient } from '@clerk/nextjs/server'
 interface EmailAddress {
     id: string;
     email_address: string;
@@ -50,11 +50,11 @@ export async function POST(req: Request) {
         return new Response('Error occurred', { status: 400 })
     }
 
-    const eventType = evt.type
+    // const eventType = evt.type
     // const { id } = evt.data;  // Typecasting to UserCreatedEvent
 
     // Check if the event type is 'user.created'
-    if (eventType === 'user.created') {
+    if (evt.type === 'user.created') {
         // Type the 'email_addresses' array in the event data as EmailAddress[]
         const { id, first_name, last_name, email_addresses, primary_email_address_id } = evt.data as {
             id: string;
@@ -79,9 +79,9 @@ export async function POST(req: Request) {
         const user = {
             name: name,
             email: email,
-            clerkId: id,
-
+            clerkId: id
         }
+        console.log("user:", user);
         try {
             // Ensure database connection
             if (!mongoose.connection.readyState) {
