@@ -8,22 +8,22 @@ import { NextResponse } from "next/server";
 
 
 // Type for the user.created event
-interface UserCreatedEvent {
-    id: string;
-    first_name: string;
-    last_name: string;
-    email_addresses: Array<{
-        id: string;
-        email_address: string;
-        verification: {
-            status: string;
-            strategy: string;
-        };
-    }>;
-    created_at: number;  // Timestamp
-    primary_email_address_id: string;
-    // Include any other properties relevant to your webhook payload
-}
+// interface UserCreatedEvent {
+//     id: string;
+//     first_name: string;
+//     last_name: string;
+//     email_addresses: Array<{
+//         id: string;
+//         email_address: string;
+//         verification: {
+//             status: string;
+//             strategy: string;
+//         };
+//     }>;
+//     created_at: number;  // Timestamp
+//     primary_email_address_id: string;
+//     // Include any other properties relevant to your webhook payload
+// }
 
 export async function POST(req: Request) {
     const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET
@@ -61,11 +61,11 @@ export async function POST(req: Request) {
     }
 
     const eventType = evt.type
-    const eventData = evt.data as UserCreatedEvent  // Typecasting to UserCreatedEvent
+    const { id } = evt.data;  // Typecasting to UserCreatedEvent
 
     // Check if the event type is 'user.created'
     if (eventType === 'user.created') {
-        const { id: clerkId, first_name, last_name, email_addresses, created_at, primary_email_address_id } = eventData
+        const { id: clerkId, first_name, last_name, email_addresses, created_at, primary_email_address_id } = evt.data
 
         // Retrieve the primary email from the email_addresses array
         const primaryEmailObj = email_addresses.find(
