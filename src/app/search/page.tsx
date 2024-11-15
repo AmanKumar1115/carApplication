@@ -1,6 +1,6 @@
 const page = () => {
     return (
-        <div>Car Details</div>
+        <div>Search Page</div>
     )
 }
 
