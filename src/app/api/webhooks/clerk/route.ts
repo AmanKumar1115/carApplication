@@ -61,7 +61,7 @@ export async function POST(req: Request) {
     }
 
     const eventType = evt.type
-    const { id } = evt.data;  // Typecasting to UserCreatedEvent
+    // const { id } = evt.data;  // Typecasting to UserCreatedEvent
 
     // Check if the event type is 'user.created'
     if (eventType === 'user.created') {
