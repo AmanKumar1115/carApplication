@@ -56,12 +56,11 @@ export async function POST(req: Request) {
     // Check if the event type is 'user.created'
     if (eventType === 'user.created') {
         // Type the 'email_addresses' array in the event data as EmailAddress[]
-        const { id, first_name, last_name, email_addresses, created_at, primary_email_address_id } = evt.data as {
+        const { id, first_name, last_name, email_addresses, primary_email_address_id } = evt.data as {
             id: string;
             first_name: string;
             last_name: string;
             email_addresses: EmailAddress[];
-            created_at: number;
             primary_email_address_id: string;
         };
 
