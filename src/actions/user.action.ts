@@ -1,8 +1,11 @@
 "use server";
 
 import { User } from "../models/user.model";
-import { connectMongo } from "../../utils/db";
-export async function createUser(user: any) {
+import { connectMongo } from "../utils/db";
+import { IUser } from "../models/user.model";
+
+// Function to create a user
+export async function createUser(user: Pick<IUser, "clerkId" | "email" | "name">) {
     try {
         await connectMongo();
         const newUser = await User.create(user);
@@ -13,6 +16,7 @@ export async function createUser(user: any) {
     }
 }
 
+// Function to fetch a user by Clerk ID
 export async function getUserByClerkId(clerkId: string) {
     try {
         await connectMongo();
@@ -24,7 +28,8 @@ export async function getUserByClerkId(clerkId: string) {
     }
 }
 
-export async function updateUser(clerkId: string, updateData: any) {
+// Function to update a user
+export async function updateUser(clerkId: string, updateData: Partial<IUser>) {
     try {
         await connectMongo();
         const updatedUser = await User.findOneAndUpdate(
