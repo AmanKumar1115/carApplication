@@ -1,19 +1,8 @@
-// import mongoose from 'mongoose';
-
-// const connectMongo = async () => {
-//     if (mongoose.connection.readyState >= 1) return;
-
-//     return mongoose.connect(process.env.MONGODB_URI!);
-// };
-
-// export default connectMongo;
 import mongoose from "mongoose";
 
 export async function connectMongo() {
     try {
-        mongoose.connect(process.env.MONGO_URI!, {
-            dbName: "carApp"
-        });
+        mongoose.connect(process.env.MONGO_URI!);
         const connection = mongoose.connection
 
         connection.on("connected", () => {

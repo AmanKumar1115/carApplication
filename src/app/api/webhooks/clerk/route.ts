@@ -3,7 +3,7 @@ import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import { WebhookEvent } from '@clerk/nextjs/server'
 import mongoose from 'mongoose';
-import { createUser } from "../../../../../actions/user.action"
+import { createUser } from "../../../../actions/user.action"
 import { NextResponse } from "next/server";
 
 interface EmailAddress {
