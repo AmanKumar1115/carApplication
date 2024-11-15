@@ -7,10 +7,11 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
         await connectMongo();
         const car = await Car.findById(params.id);
         if (!car) {
-            return NextResponse.json({ success: false, error: 'Car not found' }, { status: 404 });
+            return NextResponse.json({ success: false, error: "Car not found" }, { status: 404 });
         }
         return NextResponse.json({ success: true, data: car }, { status: 200 });
-    } catch (error: any) {
-        return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    } catch (error: unknown) {
+        console.error("Error fetching car by ID:", error);
+        return NextResponse.json({ success: false, error: "Failed to fetch car" }, { status: 500 });
     }
 }

@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
-interface IUser extends Document {
-    clerkId: string;   // Clerk ID to link with Clerk authentication
+export interface IUser extends Document {
+    clerkId: string;
     email: string;
     name: string;
     createdAt: Date;

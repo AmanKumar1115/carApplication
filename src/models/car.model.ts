@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
-interface ICar extends Document {
+export interface ICar extends Document {
     userId: string;               // Reference to the user's Clerk ID
     title: string;
     description: string;
