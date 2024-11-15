@@ -2,7 +2,9 @@
 import mongoose from "mongoose";
 export async function connect() {
     try {
-        mongoose.connect(process.env.MONGODB_URI!);
+        mongoose.connect(process.env.MONGODB_URI!, {
+            dbName: "carapp"
+        });
         const connection = mongoose.connection
 
         connection.on("connected", () => {
