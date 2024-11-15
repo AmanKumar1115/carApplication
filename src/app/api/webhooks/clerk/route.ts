@@ -6,24 +6,6 @@ import mongoose from 'mongoose';
 import { createUser } from "../../../../../actions/user.action"
 import { NextResponse } from "next/server";
 
-
-// Type for the user.created event
-// interface UserCreatedEvent {
-//     id: string;
-//     first_name: string;
-//     last_name: string;
-//     email_addresses: Array<{
-//         id: string;
-//         email_address: string;
-//         verification: {
-//             status: string;
-//             strategy: string;
-//         };
-//     }>;
-//     created_at: number;  // Timestamp
-//     primary_email_address_id: string;
-//     // Include any other properties relevant to your webhook payload
-// }
 interface EmailAddress {
     id: string;
     email_address: string;
@@ -90,9 +72,7 @@ export async function POST(req: Request) {
         const email = primaryEmailObj?.email_address;
 
 
-        const name = `${first_name || ''} ${last_name || ''}`.trim()
-        const createdAt = new Date(created_at)
-
+        const name = `${first_name || ''} ${last_name || ''}`.trim();
         if (!email) {
             console.error('Missing required fields: clerkId or email')
             return new Response('Missing required fields', { status: 400 })
@@ -101,7 +81,7 @@ export async function POST(req: Request) {
             name: name,
             email: email,
             clerkId: id,
-            createdAt: createdAt,
+
         }
         try {
             // Ensure database connection
@@ -113,7 +93,7 @@ export async function POST(req: Request) {
             // Create or update the user
             // await User.findOneAndUpdate(
             //     { clerkId },
-            //     { clerkId, email, name, createdAt },
+            //     { clerkId, email, name },
             //     { upsert: true, new: true }
             // )
             if (newUser) {

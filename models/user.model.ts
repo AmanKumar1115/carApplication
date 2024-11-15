@@ -11,8 +11,7 @@ const UserSchema: Schema = new Schema({
     clerkId: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     name: { type: String, required: true },
-    createdAt: { type: Date, default: Date.now }
-});
+}, { timestamps: true });
 
 // Create or retrieve the User model
 export const User: Model<IUser> = mongoose.models.User || mongoose.model<IUser>('User', UserSchema);
