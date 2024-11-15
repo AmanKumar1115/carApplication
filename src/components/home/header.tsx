@@ -28,7 +28,7 @@ export default function Header() {
                     <NavLink href="/">
                         <span className="flex items-center gap-2">
                             <Image
-                                src="/icon.ico"
+                                src="/car-logo.ico"
                                 alt="CarApp logo"
                                 width={36}
                                 height={36}

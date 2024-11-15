@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Car } from '@/models/car.model';
-import { connectMongo } from '@/utils/db';
+import { connect } from '@/utils/db';
 
 export async function GET(req: NextRequest) {
     try {
-        await connectMongo();
+        await connect();
         const userId = req.nextUrl.searchParams.get('userId');
         const cars = await Car.find({ userId });
         return NextResponse.json({ success: true, data: cars }, { status: 200 });

@@ -1,11 +1,10 @@
 import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import { WebhookEvent } from '@clerk/nextjs/server'
-
-import mongoose from 'mongoose';
-import { createUser } from "@/actions/user.action";
 import { NextResponse } from "next/server";
 import { clerkClient } from '@clerk/nextjs/server'
+
+import { createUser } from "@/actions/user.action";
 interface EmailAddress {
     id: string;
     email_address: string;
@@ -84,10 +83,6 @@ export async function POST(req: Request) {
         console.log("user:", user);
         try {
             // Ensure database connection
-            if (!mongoose.connection.readyState) {
-                await mongoose.connect(process.env.MONGODB_URI!)
-            }
-
             const newUser = await createUser(user);
             // Create or update the user
             // await User.findOneAndUpdate(

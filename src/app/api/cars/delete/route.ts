@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Car } from '@/models/car.model';
-import { connectMongo } from '@/utils/db';
+import { connect } from '@/utils/db';
 
 export async function DELETE(req: NextRequest) {
     try {
-        await connectMongo();
+        await connect();
         const { id }: { id: string } = await req.json();
         const deletedCar = await Car.findByIdAndDelete(id);
         if (!deletedCar) {

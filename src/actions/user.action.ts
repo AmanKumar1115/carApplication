@@ -1,13 +1,13 @@
 "use server";
 
 import { User } from "../models/user.model";
-import { connectMongo } from "../utils/db";
+import { connect } from "../utils/db";
 import { IUser } from "../models/user.model";
 
 // Function to create a user
 export async function createUser(user: Pick<IUser, "clerkId" | "email" | "name">) {
     try {
-        await connectMongo();
+        await connect();
         const newUser = await User.create(user);
         return JSON.parse(JSON.stringify(newUser));
     } catch (error) {
@@ -19,7 +19,7 @@ export async function createUser(user: Pick<IUser, "clerkId" | "email" | "name">
 // Function to fetch a user by Clerk ID
 export async function getUserByClerkId(clerkId: string) {
     try {
-        await connectMongo();
+        await connect();
         const user = await User.findOne({ clerkId });
         return user ? JSON.parse(JSON.stringify(user)) : null;
     } catch (error) {
@@ -31,7 +31,7 @@ export async function getUserByClerkId(clerkId: string) {
 // Function to update a user
 export async function updateUser(clerkId: string, updateData: Partial<IUser>) {
     try {
-        await connectMongo();
+        await connect();
         const updatedUser = await User.findOneAndUpdate(
             { clerkId },
             { $set: updateData },

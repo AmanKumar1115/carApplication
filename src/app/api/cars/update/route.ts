@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Car } from '@/models/car.model';
-import { connectMongo } from '@/utils/db';
+import { connect } from '@/utils/db';
 import { ICar } from '@/models/car.model';
 
 export async function PATCH(req: NextRequest) {
     try {
-        await connectMongo();
+        await connect();
         const { id, ...updates }: { id: string; updates: Partial<ICar> } = await req.json();
         const updatedCar = await Car.findByIdAndUpdate(id, updates, { new: true });
         if (!updatedCar) {

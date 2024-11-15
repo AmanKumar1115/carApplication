@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Car } from '@/models/car.model';
-import { connectMongo } from '@/utils/db';
+import { connect } from '@/utils/db';
 
 export async function GET(req: NextRequest, context: { params: { id: string } }) {
     try {
         // Connect to MongoDB
-        await connectMongo();
+        await connect();
 
         // Extract the ID from the params
         const { id } = context.params;
