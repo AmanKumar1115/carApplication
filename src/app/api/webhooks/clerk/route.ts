@@ -24,6 +24,14 @@ import { NextResponse } from "next/server";
 //     primary_email_address_id: string;
 //     // Include any other properties relevant to your webhook payload
 // }
+interface EmailAddress {
+    id: string;
+    email_address: string;
+    verification: {
+        status: string;
+        strategy: string;
+    };
+}
 
 export async function POST(req: Request) {
     const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET
@@ -65,13 +73,22 @@ export async function POST(req: Request) {
 
     // Check if the event type is 'user.created'
     if (eventType === 'user.created') {
-        const { id, first_name, last_name, email_addresses, created_at, primary_email_address_id } = evt.data
+        // Type the 'email_addresses' array in the event data as EmailAddress[]
+        const { id, first_name, last_name, email_addresses, created_at, primary_email_address_id } = evt.data as {
+            id: string;
+            first_name: string;
+            last_name: string;
+            email_addresses: EmailAddress[];
+            created_at: number;
+            primary_email_address_id: string;
+        };
 
         // Retrieve the primary email from the email_addresses array
         const primaryEmailObj = email_addresses.find(
-            (email: any) => email.id === primary_email_address_id
-        )
-        const email = primaryEmailObj?.email_address
+            (email: EmailAddress) => email.id === primary_email_address_id
+        );
+        const email = primaryEmailObj?.email_address;
+
 
         const name = `${first_name || ''} ${last_name || ''}`.trim()
         const createdAt = new Date(created_at)
