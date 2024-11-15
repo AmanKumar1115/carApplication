@@ -8,8 +8,14 @@ export async function GET(req: NextRequest) {
         const userId = req.nextUrl.searchParams.get('userId');
         const cars = await Car.find({ userId });
         return NextResponse.json({ success: true, data: cars }, { status: 200 });
-    } catch (error: any) {
-        return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    } catch (error: unknown) {
+        let errorMessage = "An unexpected error occurred";
+
+        // Type-check error
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        return NextResponse.json({ success: false, error: errorMessage }, { status: 500 });
     }
 }
-
