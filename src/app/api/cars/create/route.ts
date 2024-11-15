@@ -3,10 +3,11 @@ import { Car } from '@/models/car.model';
 import { connect } from '@/utils/db';
 import { ICar } from '@/models/car.model';
 
+connect();
 export async function POST(req: NextRequest) {
     try {
-        await connect();
         const carData: Pick<ICar, 'userId' | 'title' | 'description' | 'tags' | 'carType' | 'company' | 'dealer' | 'images'> = await req.json();
+        console.log(carData);
         const newCar = await Car.create(carData);
         return NextResponse.json({ success: true, data: newCar }, { status: 201 });
     } catch (error: unknown) {
