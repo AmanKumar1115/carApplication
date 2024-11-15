@@ -65,7 +65,7 @@ export async function POST(req: Request) {
 
     // Check if the event type is 'user.created'
     if (eventType === 'user.created') {
-        const { id: clerkId, first_name, last_name, email_addresses, created_at, primary_email_address_id } = evt.data
+        const { id, first_name, last_name, email_addresses, created_at, primary_email_address_id } = evt.data
 
         // Retrieve the primary email from the email_addresses array
         const primaryEmailObj = email_addresses.find(
@@ -76,14 +76,14 @@ export async function POST(req: Request) {
         const name = `${first_name || ''} ${last_name || ''}`.trim()
         const createdAt = new Date(created_at)
 
-        if (!email || !clerkId) {
+        if (!email) {
             console.error('Missing required fields: clerkId or email')
             return new Response('Missing required fields', { status: 400 })
         }
         const user = {
             name: name,
             email: email,
-            clerkId: clerkId,
+            clerkId: id,
             createdAt: createdAt,
         }
         try {
@@ -101,7 +101,7 @@ export async function POST(req: Request) {
             // )
             if (newUser) {
                 const client = await clerkClient(); // Await the Promise to get the client instance
-                await client.users.updateUserMetadata(clerkId, {
+                await client.users.updateUserMetadata(id, {
                     publicMetadata: {
                         userId: newUser._id,
                     },
